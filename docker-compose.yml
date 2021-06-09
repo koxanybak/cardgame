@@ -1,0 +1,14 @@
+services:
+    cache:
+        ports:
+            - "6379:6379"
+        image: redis
+    database:
+        image: postgres:13
+        environment: 
+            - POSTGRES_DB=spring_cardgame
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        ports: 
+            - "5431:5432"
+        command: ["postgres", "-c", "log_statement=all"]
