@@ -5,6 +5,6 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class RoundGetDto {
+public class RoundGetOneDTO {
     private UUID id;
 }

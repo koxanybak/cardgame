@@ -9,5 +9,5 @@ import koxanybak.springframework.cardgame.model.Card;
 
 @Repository
 public interface CardRepository extends CrudRepository<Card, Long> {
-    Optional<Card> findByFileName(String fileName);
+    Optional<Card> findByCardName(String cardName);
 }
