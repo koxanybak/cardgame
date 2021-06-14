@@ -1,7 +1,11 @@
 package koxanybak.springframework.cardgame.config;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisKeyValueAdapter.EnableKeyspaceEvents;
@@ -15,9 +19,13 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 )
 public class RedisConfig {
 
+	@Autowired
+	private Environment environment;
+
     @Bean
 	public JedisConnectionFactory jedisConnectionFactory() {
-        RedisStandaloneConfiguration conf = new RedisStandaloneConfiguration("localhost", 6379);
+		String redisHost = Arrays.asList(environment.getActiveProfiles()).contains("prod") ? "redis" : "localhost";
+        RedisStandaloneConfiguration conf = new RedisStandaloneConfiguration(redisHost, 6379);
 		return new JedisConnectionFactory(conf);
 	}
 
