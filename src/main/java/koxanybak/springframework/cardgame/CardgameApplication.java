@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import koxanybak.springframework.cardgame.dto.card.CardGetOneDTO;
 import koxanybak.springframework.cardgame.model.Card;
-import koxanybak.springframework.cardgame.util.mapping.DeckListConverter;
+import koxanybak.springframework.cardgame.util.mapping.DeckListStringConverter;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "koxanybak.springframework.cardgame.repository.jpa")
@@ -19,16 +19,8 @@ public class CardgameApplication {
 	public ModelMapper modelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
 
-		// modelMapper.typeMap(Card.class, CardGetOneDTO.class).addMappings(mapper -> {
-		// 	mapper.map(
-		// 		//src -> src.getDecks().stream().map(deck -> deck.getName()),
-		// 		//Card::getDecks,
-		// 		src -> src.getDecks().stream().map(deck -> deck.getName()),
-		// 		CardGetOneDTO::setDecks
-		// 	);
-		// });
 		modelMapper.typeMap(Card.class, CardGetOneDTO.class).addMappings(mapper -> 
-			mapper.using(new DeckListConverter())
+			mapper.using(new DeckListStringConverter())
 				.map(Card::getDecks, CardGetOneDTO::setDecks)
 		);
 

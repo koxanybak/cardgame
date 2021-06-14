@@ -7,7 +7,7 @@ import org.modelmapper.AbstractConverter;
 
 import koxanybak.springframework.cardgame.model.Deck;
 
-public class DeckListConverter extends AbstractConverter<List<Deck>, List<String>>{
+public class DeckListStringConverter extends AbstractConverter<List<Deck>, List<String>> {
 
     @Override
     protected List<String> convert(List<Deck> decks) {

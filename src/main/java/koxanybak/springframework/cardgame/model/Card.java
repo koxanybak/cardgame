@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "Card")
 @Table(name = "card")
 @Data
 @AllArgsConstructor
@@ -29,13 +29,14 @@ import lombok.NoArgsConstructor;
 public class Card {
 
     @Id
-    @Column(unique = true)
-    private String cardName;
+    @Column
+    private String name;
 
     @ManyToMany(cascade = { CascadeType.ALL } )
     @JoinTable(
-        joinColumns = @JoinColumn(name = "card_id"),
-        inverseJoinColumns = @JoinColumn(name = "deck_id")
+        name = "card_deck",
+        joinColumns = @JoinColumn(name = "card_name"),
+        inverseJoinColumns = @JoinColumn(name = "deck_name")
     )
     private List<Deck> decks = new ArrayList<>();
 

@@ -1,7 +1,12 @@
 package koxanybak.springframework.cardgame.controller;
 
+import java.util.UUID;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,10 +26,14 @@ public class RoundController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostMapping(value="/")
-    public RoundGetOneDTO create() {
-        RoundRedis newRound = roundService.create();
+    @PostMapping(value="")
+    public RoundGetOneDTO create(@PathVariable(value = "deckName") String deckName) {
+        RoundRedis newRound = roundService.create(deckName);
         return modelMapper.map(newRound, RoundGetOneDTO.class);
     }
     
+    @GetMapping(value = "/{roundId}/next", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getNextCard(@PathVariable(value = "roundId") UUID roundId) {
+        return this.roundService.getNextCard(roundId);
+    }
 }

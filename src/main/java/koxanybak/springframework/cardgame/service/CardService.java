@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import koxanybak.springframework.cardgame.model.Card;
 import koxanybak.springframework.cardgame.model.Deck;
@@ -21,7 +23,8 @@ public class CardService {
     @Autowired
     private CardRepository cardRepository;
 
-    public Iterable<Card> create(MultipartFile[] images, List<String> deckNames) throws IOException {
+    public List<Card> create(MultipartFile[] images, List<String> deckNames) throws IOException {
+        // TODO file type check
         List<Deck> decksList = deckNames.stream()
             .map(deckName -> new Deck(deckName))
             .toList();
@@ -38,15 +41,27 @@ public class CardService {
             }
         }).collect(Collectors.toList());
 
-        cards.stream().forEach(im -> {
-            System.out.println(im.getCardName());
-            System.out.println(im.getImage().length);
-        });
-        return cardRepository.saveAll(cards);
+        List<Card> newCards = cardRepository.saveAll(cards);
+        cardRepository.flush();
+
+        return newCards;
     }
 
-    public Optional<Card> findOne(String cardName) {
+    public Card findOne(String cardName) {
         // TODO Lazy loading
-        return cardRepository.findByCardName(cardName);
+        Optional<Card> cardInDb = cardRepository.findByName(cardName);
+        if (cardInDb.equals(Optional.empty())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return cardInDb.get();
+    }
+
+    public List<Card> findAll(String deckName) {
+        return cardRepository.findAllByDeckName(deckName);
+    }
+
+    public List<Card> findAll() {
+        return cardRepository.findAll();
     }
 }
