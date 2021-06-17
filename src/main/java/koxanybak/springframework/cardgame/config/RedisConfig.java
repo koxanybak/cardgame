@@ -24,7 +24,7 @@ public class RedisConfig {
 
     @Bean
 	public JedisConnectionFactory jedisConnectionFactory() {
-		String redisHost = Arrays.asList(environment.getActiveProfiles()).contains("prod") ? "redis" : "localhost";
+		String redisHost = Arrays.asList(environment.getActiveProfiles()).contains("prod") ? "cache" : "localhost";
         RedisStandaloneConfiguration conf = new RedisStandaloneConfiguration(redisHost, 6379);
 		return new JedisConnectionFactory(conf);
 	}

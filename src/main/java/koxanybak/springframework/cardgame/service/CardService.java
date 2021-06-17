@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +22,13 @@ public class CardService {
     @Autowired
     private CardRepository cardRepository;
 
-    public List<Card> create(MultipartFile[] images, List<String> deckNames) throws IOException {
+    public List<Card> create(List<MultipartFile> images, List<String> deckNames) throws IOException {
         // TODO file type check
         List<Deck> decksList = deckNames.stream()
             .map(deckName -> new Deck(deckName))
             .toList();
         
-        List<Card> cards = Stream.of(images).map(file -> {
+        List<Card> cards = images.stream().map(file -> {
             // Remove fileName extension
             String[] parts = file.getOriginalFilename().split("[.]");
             String cardName = String.join("", Arrays.copyOfRange(parts, 0, parts.length - 1));

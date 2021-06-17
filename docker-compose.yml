@@ -3,7 +3,9 @@ services:
         ports:
             - "6379:6379"
         image: redis
+        restart: always
     database:
+        restart: always
         image: postgres:13
         environment: 
             - POSTGRES_DB=spring_cardgame
@@ -11,18 +13,19 @@ services:
             - POSTGRES_PASSWORD=postgres
         ports: 
             - "5432:5432"
+        volumes: 
+            - /var/lib/postgresql/data:/var/lib/postgresql/data
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U postgres"]
             interval: 3s
             timeout: 3s
             retries: 5
     api:
+        restart: always
         image: koxanybak/spring_cardgame
         ports: 
-            - "3001:3001"
+            - "80:3001"
         build: .
-        volumes: 
-            - /var/lib/postgresql/data:/var/lib/postgresql/data
         depends_on:
             database:
                 condition: service_healthy

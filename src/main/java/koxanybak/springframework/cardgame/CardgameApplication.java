@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import koxanybak.springframework.cardgame.dto.card.CardGetAllDTO;
 import koxanybak.springframework.cardgame.dto.card.CardGetOneDTO;
 import koxanybak.springframework.cardgame.model.Card;
 import koxanybak.springframework.cardgame.util.mapping.DeckListStringConverter;
@@ -22,6 +23,10 @@ public class CardgameApplication {
 		modelMapper.typeMap(Card.class, CardGetOneDTO.class).addMappings(mapper -> 
 			mapper.using(new DeckListStringConverter())
 				.map(Card::getDecks, CardGetOneDTO::setDecks)
+		);
+		modelMapper.typeMap(Card.class, CardGetAllDTO.class).addMappings(mapper -> 
+			mapper.using(new DeckListStringConverter())
+				.map(Card::getDecks, CardGetAllDTO::setDecks)
 		);
 
 		return modelMapper;
