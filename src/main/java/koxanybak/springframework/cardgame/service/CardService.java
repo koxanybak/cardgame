@@ -23,7 +23,6 @@ public class CardService {
     private CardRepository cardRepository;
 
     public List<Card> create(List<MultipartFile> images, List<String> deckNames) throws IOException {
-        // TODO file type check
         List<Deck> decksList = deckNames.stream()
             .map(deckName -> new Deck(deckName))
             .toList();
@@ -32,6 +31,12 @@ public class CardService {
             // Remove fileName extension
             String[] parts = file.getOriginalFilename().split("[.]");
             String cardName = String.join("", Arrays.copyOfRange(parts, 0, parts.length - 1));
+
+            // Check for correct file type
+            String fileType = parts[parts.length - 1];
+            if (!fileType.equalsIgnoreCase("jpg")) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong file type");
+            }
 
             try {
                 return new Card(cardName, decksList, file.getBytes());

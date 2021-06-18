@@ -38,11 +38,20 @@ public class CardIntegrationTest extends CardgameTest {
 
     @Test
     public void savesPostedJPGs() throws Exception {
-        File[] testJPGs = new File(
-            TEST_DATA_DIRECTORY
-        ).listFiles();
-        insertCards(Lists.newArrayList(testJPGs), "color", "not-color")
+        insertCards(Lists.newArrayList(
+            BLACK_CARD_FILE,
+            BLUE_CARD_FILE,
+            YELLOW_CARD_FILE,
+            RED_CARD_FILE
+        ), "color", "not-color")
             .andExpect(status().is(201));
+    }
+
+    @Test
+    public void doesNotSaveOtherThanJPGs() throws Exception {
+        File grayImagePNG = new File(TEST_DATA_DIRECTORY + "/grey.png");
+        insertCards(Lists.newArrayList(grayImagePNG), "color")
+            .andExpect(status().is(400));
     }
 
     @Test

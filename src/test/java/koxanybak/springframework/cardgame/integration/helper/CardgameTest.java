@@ -33,8 +33,8 @@ public abstract class CardgameTest {
     protected static final String TEST_DATA_DIRECTORY = "./src/test/java/koxanybak/springframework/cardgame/testdata";
     
     protected static final File BLACK_CARD_FILE = new File(TEST_DATA_DIRECTORY + "/black.jpg");
-    protected static final File YELLOW_CARD_FILE = new File(TEST_DATA_DIRECTORY + "/yellow.jpg");
-    protected static final File RED_CARD_FILE = new File(TEST_DATA_DIRECTORY + "/red.jpg");
+    protected static final File YELLOW_CARD_FILE = new File(TEST_DATA_DIRECTORY + "/yel.low.jpg");
+    protected static final File RED_CARD_FILE = new File(TEST_DATA_DIRECTORY + "/red.JPG");
     protected static final File BLUE_CARD_FILE = new File(TEST_DATA_DIRECTORY + "/blue.jpg");
     
     @Autowired
