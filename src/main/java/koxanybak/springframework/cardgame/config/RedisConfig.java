@@ -1,6 +1,7 @@
 package koxanybak.springframework.cardgame.config;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,8 +25,7 @@ public class RedisConfig {
 
     @Bean
 	public JedisConnectionFactory jedisConnectionFactory() {
-		String redisHost = Arrays.asList(environment.getActiveProfiles()).contains("prod") ? "cache" : "localhost";
-        RedisStandaloneConfiguration conf = new RedisStandaloneConfiguration(redisHost, 6379);
+        RedisStandaloneConfiguration conf = new RedisStandaloneConfiguration(getRedisHost(), getRedisPort());
 		return new JedisConnectionFactory(conf);
 	}
 
@@ -34,5 +34,20 @@ public class RedisConfig {
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(jedisConnectionFactory());
 		return template;
+	}
+
+	private String getRedisHost() {
+		return Arrays.asList(environment.getActiveProfiles()).contains("prod") ? "cache" : "localhost";
+	}
+
+	private int getRedisPort() {
+		List<String> activeProfiles = Arrays.asList(environment.getActiveProfiles());
+		if (activeProfiles.contains("prod")) {
+			return 6379;
+		}
+		if (activeProfiles.contains("test")) {
+			return 6377;
+		}
+		return 6378;
 	}
 }

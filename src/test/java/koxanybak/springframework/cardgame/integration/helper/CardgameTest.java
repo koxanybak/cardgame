@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -25,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import koxanybak.springframework.cardgame.CardgameApplication;
 
 @ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 @ContextConfiguration(classes = CardgameApplication.class)
 @WebAppConfiguration
 public abstract class CardgameTest {

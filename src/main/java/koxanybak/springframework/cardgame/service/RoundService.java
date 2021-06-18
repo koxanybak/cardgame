@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,21 +28,24 @@ public class RoundService {
         List<Card> cardsInDeck = cardService.findAll(deckName);
         shuffleCards(cardsInDeck);
         
-        List<String> cardNames = cardsInDeck.stream().map(Card::getName).collect(Collectors.toList());
+        List<String> cardNames = cardsInDeck.stream().map(Card::getName).toList();
         RoundRedis round = new RoundRedis(UUID.randomUUID(), 0, cardNames);
 
         return roundRepository.save(round);
     }
 
-    public byte[] getNextCard(UUID roundId) {
+    public RoundRedis getRound(UUID roundId) {
         // TODO optimize queries
         Optional<RoundRedis> roundInDb = roundRepository.findById(roundId);
         if (roundInDb.equals(Optional.empty())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        return roundInDb.get();
+    }
 
+    public byte[] getNextCard(UUID roundId) {
         // Fetch card
-        RoundRedis existingRound = roundInDb.get();
+        RoundRedis existingRound = getRound(roundId);
         String cardName = existingRound.getCardNames().get(existingRound.getNextCard());
         Card cardInDb = cardService.findOne(cardName);
 

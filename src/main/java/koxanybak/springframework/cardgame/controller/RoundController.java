@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import koxanybak.springframework.cardgame.dto.round.RoundGetOneDTO;
+import koxanybak.springframework.cardgame.dto.round.RoundGetOnePostDTO;
 import koxanybak.springframework.cardgame.model.RoundRedis;
 import koxanybak.springframework.cardgame.service.RoundService;
 
@@ -31,13 +32,20 @@ public class RoundController {
 
     @PostMapping(value="")
     @ResponseStatus(HttpStatus.CREATED)
-    public RoundGetOneDTO create(@PathVariable(value = "deckName") String deckName) {
+    public RoundGetOnePostDTO create(@PathVariable(value = "deckName") String deckName) {
         RoundRedis newRound = roundService.create(deckName);
-        return modelMapper.map(newRound, RoundGetOneDTO.class);
+        return modelMapper.map(newRound, RoundGetOnePostDTO.class);
     }
     
     @GetMapping(value = "/{roundId}/next", produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getNextCard(@PathVariable(value = "roundId") UUID roundId) {
         return this.roundService.getNextCard(roundId);
+    }
+
+    @GetMapping(value = "/{roundId}")
+    public RoundGetOneDTO getRound(
+        @PathVariable(value = "roundId") UUID roundId
+    ) {
+        return modelMapper.map(this.roundService.getRound(roundId), RoundGetOneDTO.class);
     }
 }

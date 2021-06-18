@@ -34,3 +34,5 @@ build/
 
 # Own stuff
 OHJE.md
+docker-compose.prod.yml
+src/main/resources/application-prod.properties

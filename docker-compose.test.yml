@@ -1,0 +1,12 @@
+services:
+    cache_test:
+        ports:
+            - "6377:6379"
+        container_name: cardgame_test_cache
+        image: redis
+        restart: always
+        networks:
+            cardgame_test:
+
+networks:
+    cardgame_test:
