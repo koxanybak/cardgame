@@ -36,8 +36,17 @@ public class RedisConfig {
 		return template;
 	}
 
+	// TODO: Get these from .properties
+	
 	private String getRedisHost() {
-		return Arrays.asList(environment.getActiveProfiles()).contains("prod") ? "cache" : "localhost";
+		List<String> activeProfiles = Arrays.asList(environment.getActiveProfiles());
+		if (activeProfiles.contains("prod")) {
+			return "cache_prod";
+		}
+		if (activeProfiles.contains("test")) {
+			return "localhost";
+		}
+		return "localhost";
 	}
 
 	private int getRedisPort() {
