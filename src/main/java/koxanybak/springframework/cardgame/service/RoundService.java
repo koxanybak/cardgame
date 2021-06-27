@@ -26,6 +26,10 @@ public class RoundService {
     public RoundRedis create(String deckName) {
         // TODO optimize query
         List<Card> cardsInDeck = cardService.findAll(deckName);
+        if (cardsInDeck.size() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Deck '"+deckName+"' has no cards");
+        }
+        
         shuffleCards(cardsInDeck);
         
         List<String> cardNames = cardsInDeck.stream().map(Card::getName).toList();

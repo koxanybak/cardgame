@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@RedisHash(value = "round")
+@RedisHash(value = "round", timeToLive = 60*60*24)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
