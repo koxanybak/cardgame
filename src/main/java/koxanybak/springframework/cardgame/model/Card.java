@@ -1,5 +1,6 @@
 package koxanybak.springframework.cardgame.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.hibernate.annotations.Type;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "Card")
@@ -26,13 +28,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Card {
+@EqualsAndHashCode
+public class Card implements Serializable {
 
     @Id
     @Column
     private String name;
 
-    @ManyToMany(cascade = { CascadeType.ALL } )
+    @ManyToMany(
+        cascade = { CascadeType.ALL },
+        fetch = FetchType.EAGER
+    )
     @JoinTable(
         name = "card_deck",
         joinColumns = @JoinColumn(name = "card_name"),

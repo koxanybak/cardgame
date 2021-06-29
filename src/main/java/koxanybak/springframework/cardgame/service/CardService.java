@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,7 @@ public class CardService {
     @Autowired
     private CardRepository cardRepository;
 
+    @CacheEvict(value = "card", allEntries = true) // TODO: not really necessary to evict all
     public List<Card> create(List<MultipartFile> images, List<String> deckNames) throws IOException {
         List<Deck> decksList = deckNames.stream()
             .map(deckName -> new Deck(deckName))

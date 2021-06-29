@@ -42,7 +42,7 @@ public abstract class CardgameTest {
 
     protected static MockMvc mockMvc;
     @BeforeEach
-    public void setup() throws Exception {
+    public void setupMockMVC() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
 
@@ -73,6 +73,7 @@ public abstract class CardgameTest {
         return mockMvc.perform(requestBuilder);
     }
 
+    // TODO: Could be done straight using the repository
     protected static void addDefaultCardsToDB() throws Exception {
         insertCards(Lists.newArrayList(BLACK_CARD_FILE), "not-color");
         insertCards(Lists.newArrayList(

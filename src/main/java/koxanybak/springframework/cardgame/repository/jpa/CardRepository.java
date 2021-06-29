@@ -3,6 +3,7 @@ package koxanybak.springframework.cardgame.repository.jpa;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,5 +20,6 @@ public interface CardRepository extends JpaRepository<Card, String> {
     )
     List<Card> findAllByDeckName(@Param("deckName") String deckName);
 
+    @Cacheable("card")
     Optional<Card> findByName(String name);
 }

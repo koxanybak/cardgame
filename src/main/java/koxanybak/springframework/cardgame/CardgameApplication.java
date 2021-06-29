@@ -3,6 +3,7 @@ package koxanybak.springframework.cardgame;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -13,6 +14,7 @@ import koxanybak.springframework.cardgame.util.mapping.DeckListStringConverter;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "koxanybak.springframework.cardgame.repository.jpa")
+@EnableCaching
 public class CardgameApplication {
 
 	@Bean
