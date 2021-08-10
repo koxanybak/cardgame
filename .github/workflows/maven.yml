@@ -22,8 +22,9 @@ jobs:
         java-version: '16'
         distribution: 'adopt'
 
-    - name: Spin up test cache and wait
+    - name: Spin up test cache
       run: docker-compose up -f docker-compose.test.yml
+    - name: Wait for cache
       uses: jakejarvis/wait-action@master
       with:
         time: 30s
