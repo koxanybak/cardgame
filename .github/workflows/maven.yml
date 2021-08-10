@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build_and_test:
 
     runs-on: ubuntu-latest
 
@@ -23,7 +23,7 @@ jobs:
         distribution: 'adopt'
 
     - name: Spin up test cache
-      run: docker-compose up -f docker-compose.test.yml
+      run: docker-compose -f docker-compose.test.yml up -d
     - name: Wait for cache
       uses: jakejarvis/wait-action@master
       with:
